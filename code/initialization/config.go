@@ -2,14 +2,18 @@ package initialization
 
 import (
 	"fmt"
+	"github.com/spf13/pflag"
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/spf13/viper"
 )
 
 type Config struct {
+	// 表示配置是否已经被初始化了。
+	Initialized                bool
 	FeishuAppId                string
 	FeishuAppSecret            string
 	FeishuAppEncryptKey        string
@@ -22,12 +26,31 @@ type Config struct {
 	CertFile                   string
 	KeyFile                    string
 	OpenaiApiUrl               string
+	OpenaiModel                string
+	OpenAIHttpClientTimeOut    int
+	OpenaiMaxTokens            int
 	HttpProxy                  string
 	AzureOn                    bool
 	AzureApiVersion            string
 	AzureDeploymentName        string
 	AzureResourceName          string
 	AzureOpenaiToken           string
+	StreamMode                 bool
+}
+
+var (
+	cfg    = pflag.StringP("config", "c", "./config.yaml", "apiserver config file path.")
+	config *Config
+	once   sync.Once
+)
+
+func GetConfig() *Config {
+	once.Do(func() {
+		config = LoadConfig(*cfg)
+		config.Initialized = true
+	})
+
+	return config
 }
 
 func LoadConfig(cfg string) *Config {
@@ -46,7 +69,10 @@ func LoadConfig(cfg string) *Config {
 		FeishuAppEncryptKey:        getViperStringValue("APP_ENCRYPT_KEY", ""),
 		FeishuAppVerificationToken: getViperStringValue("APP_VERIFICATION_TOKEN", ""),
 		FeishuBotName:              getViperStringValue("BOT_NAME", ""),
-		OpenaiApiKeys:              getViperStringArray("OPENAI_KEY", nil),
+		OpenaiApiKeys:              getViperStringArray("OPENAI_KEY", []string{""}),
+		OpenaiModel:                getViperStringValue("OPENAI_MODEL", "gpt-3.5-turbo"),
+		OpenAIHttpClientTimeOut:    getViperIntValue("OPENAI_HTTP_CLIENT_TIMEOUT", 550),
+		OpenaiMaxTokens:            getViperIntValue("OPENAI_MAX_TOKENS", 2000),
 		HttpPort:                   getViperIntValue("HTTP_PORT", 9000),
 		HttpsPort:                  getViperIntValue("HTTPS_PORT", 9001),
 		UseHttps:                   getViperBoolValue("USE_HTTPS", false),
@@ -59,6 +85,7 @@ func LoadConfig(cfg string) *Config {
 		AzureDeploymentName:        getViperStringValue("AZURE_DEPLOYMENT_NAME", ""),
 		AzureResourceName:          getViperStringValue("AZURE_RESOURCE_NAME", ""),
 		AzureOpenaiToken:           getViperStringValue("AZURE_OPENAI_TOKEN", ""),
+		StreamMode:                 getViperBoolValue("STREAM_MODE", false),
 	}
 
 	return config
