@@ -1,3 +1,5 @@
+<img width="1280" alt="飞书 AI 对话" src="https://github.com/user-attachments/assets/f5b27246-6d56-43a3-a4e1-9db8c69f698d" />
+
 <a href="https://www.connectai-e.com" target="_blank" rel="noreferrer">
   <img align="center" width="100%" height="auto" src="https://github-production-user-asset-6210df.s3.amazonaws.com/50035229/250274252-7f07a95e-b5aa-4dd8-90e7-5fb3bfb863c7.svg" >
 </a>
@@ -101,8 +103,7 @@
 - 🥒
   支持[Serverless 云函数](https://github.com/serverless-devs/serverless-devs)、[本地环境](https://dashboard.cpolar.com/login)、[Docker](https://www.docker.com/)、[二进制安装包](https://github.com/Leizhenpeng/feishu-chatgpt/releases/)
   等多种渠道部署
-- 🍋 基于[goCache](https://github.com/patrickmn/go-cache)内存键值对缓存
-
+  
 ## 项目部署
 
 ###### 有关飞书的配置文件说明，**[➡︎ 点击查看](#详细配置步骤)**
@@ -474,7 +475,7 @@ docker compose down
 
 遇到问题，可以加入飞书群沟通~
 
-<img src='https://user-images.githubusercontent.com/13283837/232570671-1058555f-c9e5-4f64-889b-1d8efd0101ba.png' alt='' width='200'/>
+<img src='https://github.com/ConnectAI-E/feishu-openai/assets/110169811/bc19db83-422e-4f2f-9465-77489817d482' alt='' width='300'/>
 
 
 ## 企联AI
